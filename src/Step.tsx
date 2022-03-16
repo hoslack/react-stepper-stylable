@@ -1,0 +1,205 @@
+import { Icon } from '@chakra-ui/react';
+import * as React from 'react';
+import { StepProps } from './types';
+
+export const Step: React.FC<StepProps> = ({
+  activeColor,
+  completeColor,
+  defaultColor,
+  circleFontColor,
+  activeTitleColor,
+  completeTitleColor,
+  defaultTitleColor,
+  size,
+  circleFontSize,
+  titleFontSize,
+  circleTop,
+  titleTop,
+  width,
+  completeOpacity,
+  activeOpacity,
+  defaultOpacity,
+  completeTitleOpacity,
+  activeTitleOpacity,
+  defaultTitleOpacity,
+  barStyle,
+  defaultBarColor,
+  completeBarColor,
+  defaultBorderColor,
+  completeBorderColor,
+  activeBorderColor,
+  defaultBorderStyle,
+  completeBorderStyle,
+  activeBorderStyle,
+  lineMarginOffset,
+  defaultBorderWidth,
+  title,
+  icon,
+  index,
+  active,
+  completed,
+  first,
+  isLast,
+  href,
+  onClick,
+  borderStyle,
+}) => {
+  const styles = {
+    step: {
+      width: `${width}%`,
+      display: 'table-cell',
+      position: 'relative' as 'relative',
+      paddingTop: circleTop,
+    } as React.CSSProperties,
+    circle: {
+      width: size,
+      height: size,
+      margin: '0 auto',
+      backgroundColor: defaultColor,
+      borderRadius: '50%',
+      textAlign: 'center',
+      padding: 1,
+      fontSize: circleFontSize,
+      color: circleFontColor,
+      display: 'block',
+      opacity: defaultOpacity,
+      borderWidth: defaultBorderColor ? defaultBorderWidth : 0,
+      borderColor: defaultBorderColor,
+      borderStyle: defaultBorderStyle,
+    } as React.CSSProperties,
+    activeCircle: {
+      backgroundColor: activeColor,
+      opacity: activeOpacity,
+      borderWidth: activeBorderColor ? defaultBorderWidth : 0,
+      borderColor: activeBorderColor,
+      borderStyle: activeBorderStyle,
+    } as React.CSSProperties,
+    completedCircle: {
+      backgroundColor: completeColor,
+      opacity: completeOpacity,
+      borderWidth: completeBorderColor ? defaultBorderWidth : 0,
+      borderColor: completeBorderColor,
+      borderStyle: completeBorderStyle,
+    } as React.CSSProperties,
+    index: {
+      lineHeight: `${(size || 32) + (circleFontSize || 16) / 4}px`,
+      color: circleFontColor,
+    } as React.CSSProperties,
+    title: {
+      marginTop: titleTop,
+      fontSize: titleFontSize,
+      fontWeight: '300',
+      textAlign: 'center',
+      display: 'block',
+      color: defaultTitleColor,
+      opacity: defaultTitleOpacity,
+    } as React.CSSProperties,
+    activeTitle: {
+      color: activeTitleColor,
+      opacity: activeTitleOpacity,
+    },
+    completedTitle: {
+      color: completeTitleColor,
+      opacity: completeTitleOpacity,
+    } as React.CSSProperties,
+    leftBar: {
+      position: 'absolute',
+      top: (circleTop || 24) + (size || 32) / 2,
+      height: 1,
+      borderTopStyle: barStyle,
+      borderTopWidth: 5,
+      borderTopColor: defaultBarColor,
+      left: 0,
+      right: '50%',
+      marginRight: (size || 32) / 2 + (lineMarginOffset || 4),
+      opacity: defaultOpacity,
+    } as React.CSSProperties,
+    rightBar: {
+      position: 'absolute',
+      top: (circleTop || 24) + (size || 32) / 2,
+      height: 1,
+      borderTopStyle: barStyle,
+      borderTopWidth: 5,
+      borderTopColor: defaultBarColor,
+      right: 0,
+      left: '50%',
+      marginLeft: (size || 32) / 2 + (lineMarginOffset || 4),
+      opacity: defaultOpacity,
+    } as React.CSSProperties,
+    completedBar: {
+      borderTopStyle: barStyle,
+      borderTopWidth: 5,
+      borderTopColor: completeBarColor,
+      opacity: completeOpacity,
+    } as React.CSSProperties,
+  };
+
+  const circleStyle = Object.assign(
+    styles.circle,
+    completed ? styles.completedCircle : {},
+    active ? styles.activeCircle : {}
+  );
+  const titleStyle = Object.assign(
+    styles.title,
+    completed ? styles.completedTitle : {},
+    active ? styles.activeTitle : {}
+  );
+  const leftStyle = Object.assign(
+    styles.leftBar,
+    active || completed ? styles.completedBar : {}
+  );
+  const rightStyle = Object.assign(
+    styles.rightBar,
+    completed ? styles.completedBar : {}
+  );
+
+  const stepContent = icon ? (
+    <Icon as={icon} fontSize={20} />
+  ) : (
+    (index || 0) + 1
+  );
+
+  return (
+    <div style={styles.step}>
+      <div style={circleStyle}>
+        {active || completed ? (
+          <a href={href} onClick={onClick} style={styles.index}>
+            {stepContent}
+          </a>
+        ) : (
+          <span style={styles.index}>{stepContent}</span>
+        )}
+      </div>
+      {active || completed ? (
+        <a href={href} onClick={onClick} style={titleStyle}>
+          {title}
+        </a>
+      ) : (
+        <div style={titleStyle}>{title}</div>
+      )}
+      {!first && <div style={leftStyle}></div>}
+      {!isLast && <div style={rightStyle}></div>}
+    </div>
+  );
+};
+
+Step.defaultProps = {
+  activeColor: '#5096FF',
+  completeColor: '#5096FF',
+  defaultColor: '#E0E0E0',
+  activeTitleColor: '#000',
+  completeTitleColor: '#000',
+  defaultTitleColor: '#757575',
+  circleFontColor: '#FFF',
+  size: 32,
+  circleFontSize: 16,
+  titleFontSize: 16,
+  circleTop: 24,
+  titleTop: 8,
+  defaultBarColor: '#E0E0E0',
+  barStyle: 'solid',
+  borderStyle: 'solid',
+  lineMarginOffset: 4,
+  defaultBorderWidth: 3,
+  index: 0,
+};
