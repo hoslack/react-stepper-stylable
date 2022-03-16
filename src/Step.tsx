@@ -42,7 +42,6 @@ export const Step: React.FC<StepProps> = ({
   isLast,
   href,
   onClick,
-  borderStyle,
 }) => {
   const styles = {
     step: {

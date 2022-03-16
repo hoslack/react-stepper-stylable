@@ -1,160 +1,93 @@
-# TSDX React User Guide
+# react-stepper-stylable
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+Flexible and highly customizable stepper component for React. An improvement of react-stepper
 
-> This TSDX setup is meant for developing React component libraries (not apps!) that can be published to NPM. If you’re looking to build a React-based app, you should use `create-react-app`, `razzle`, `nextjs`, `gatsby`, or `react-static`.
+## Installation
 
-> If you’re new to TypeScript and React, checkout [this handy cheatsheet](https://github.com/sw-yx/react-typescript-cheatsheet/)
-
-## Commands
-
-TSDX scaffolds your new library inside `/src`, and also sets up a [Parcel-based](https://parceljs.org) playground for it inside `/example`.
-
-The recommended workflow is to run TSDX in one terminal:
-
-```bash
-npm start # or yarn start
+```
+npm install react-stepper-stylable --save
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
-
-Then run the example inside another:
-
-```bash
-cd example
-npm i # or yarn to install dependencies
-npm start # or yarn start
+```
+yarn add react-stepper-stylable
 ```
 
-The default example imports and live reloads whatever is in `/dist`, so if you are seeing an out of date component, make sure TSDX is running in watch mode like we recommend above. **No symlinking required**, we use [Parcel's aliasing](https://parceljs.org/module_resolution.html#aliases).
+Then just add `import { Stepper } from 'react-stepper-stylable';` into your file.
 
-To do a one-off build, use `npm run build` or `yarn build`.
+## Screenshot
 
-To run tests, use `npm test` or `yarn test`.
+<img src="https://raw.githubusercontent.com/mu29/react-stepper/master/example/example.png" width="600" />
 
-## Configuration
+## Usage
 
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle analysis
-
-Calculates the real cost of your library using [size-limit](https://github.com/ai/size-limit) with `npm run size` and visulize it with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/example
-  index.html
-  index.tsx       # test your component here in a demo app
-  package.json
-  tsconfig.json
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
 ```
-
-#### React Testing Library
-
-We do not set up `react-testing-library` for you yet, we welcome contributions and documentation on this.
-
-### Rollup
-
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
-
-### TypeScript
-
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
-
-## Continuous Integration
-
-### GitHub Actions
-
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
+render() {
+  const steps: Array<IStep> = [
+    { title: 'Step1', content: <Component1 />, icon: IconOne },
+    { title: 'Step2', content: <Component2 />, icon: IconTwo },
+    { title: 'Step3', content: <Component3 />, icon: iconThree },
+  ];
+  return (
+    <div>
+      <Stepper steps={steps} activeStep={1} />
+    </div>
+  );
 }
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
+See full example [here](https://github.com/hoslack/react-stepper-stylable/blob/master/example/example.tsx)
 
-## Module Formats
+## API
 
-CJS, ESModules, and UMD module formats are supported.
+### Main Component
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
+| name                 | description                                    | default | type   |
+| -------------------- | ---------------------------------------------- | ------- | ------ |
+| activeStep           | Active step index, starts at 0                 | 0       | number |
+| steps                | List of step objects (see below)               |         | array  |
+| activeColor          | Active circle color                            | #5096FF | string |
+| completeColor        | Completed circle color                         | #5096FF | string |
+| defaultColor         | Default circle color - not active or completed | #E0E0E0 | string |
+| activeTitleColor     | Active title color                             | #000    | string |
+| completeTitleColor   | Completed title color                          | #000    | string |
+| defaultTitleColor    | Default title color - not active or completed  | #757575 | string |
+| circleFontColor      | Circle text color (for index)                  | #FFF    | string |
+| size                 | Circle size                                    | 32      | number |
+| circleFontSize       | Circle text size                               | 16      | number |
+| titleFontSize        | Title text size                                | 16      | number |
+| circleTop            | Top margin of `Stepper` component              | 24      | number |
+| titleTop             | Space between circle and title                 | 8       | number |
+| defaultOpacity       | Default circle opacity                         | 1       | string |
+| completeOpacity      | Completed circle opacity                       | 1       | string |
+| activeOpacity        | Active circle opacity                          | 1       | string |
+| defaultTitleOpacity  | Default title opacity                          | 1       | string |
+| completeTitleOpacity | Completed title opacity                        | 1       | string |
+| activeTitleOpacity   | Active title opacity                           | 1       | string |
+| barStyle             | Style of bar separating steps                  | solid   | string |
+| defaultBorderColor   | Default color of border surrounding circle     |         | string |
+| completeBorderColor  | Color of border surrounding completed circle   |         | string |
+| activeBorderColor    | Color of border surrounding active circle      |         | string |
+| defaultBorderStyle   | Default style of border surrounding circle     | solid   | string |
+| completeBorderStyle  | Style of border surrounding completed circle   | solid   | string |
+| activeBorderStyle    | Style of border surrounding active circle      | solid   | string |
+| defaultBarColor      | Default color of bar separating circles        | #E0E0E0 | string |
+| completeBarColor     | Color of bar connected to a completed step     | #E0E0E0 | string |
+| lineMarginOffset     | Offset for line margin                         | 4       | number |
+| defaultBorderWidth   | Default Border Width                           | 3       | number |
 
-## Deploying the Example Playground
+### Step Objects
 
-The Playground is just a simple [Parcel](https://parceljs.org) app, you can deploy it anywhere you would normally deploy that. Here are some guidelines for **manually** deploying with the Netlify CLI (`npm i -g netlify-cli`):
+| name    | description                                 | default   | type         |
+| ------- | ------------------------------------------- | --------- | ------------ |
+| title   | Displayed text of the step below the number | undefined | string       |
+| icon    | Displayed icon of the step                  | undefined | image/object |
+| href    | Link to send them to on click               | undefined | string       |
+| onClick | Event handler for when the step is clicked  | undefined | function     |
 
-```bash
-cd example # if not already in the example folder
-npm run build # builds to dist
-netlify deploy # deploy the dist folder
-```
+## Author
 
-Alternatively, if you already have a git repo connected, you can set up continuous deployment with Netlify:
+Hoslack Ochieng / [@hoslack](https://twitter.com/hoslack)
 
-```bash
-netlify init
-# build command: yarn build && cd example && yarn && yarn build
-# directory to deploy: example/dist
-# pick yes for netlify.toml
-```
+## License
 
-## Named Exports
-
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
-
-## Usage with Lerna
-
-When creating a new package with TSDX within a project set up with Lerna, you might encounter a `Cannot resolve dependency` error when trying to run the `example` project. To fix that you will need to make changes to the `package.json` file _inside the `example` directory_.
-
-The problem is that due to the nature of how dependencies are installed in Lerna projects, the aliases in the example project's `package.json` might not point to the right place, as those dependencies might have been installed in the root of your Lerna project.
-
-Change the `alias` to point to where those packages are actually installed. This depends on the directory structure of your Lerna project, so the actual path might be different from the diff below.
-
-```diff
-   "alias": {
--    "react": "../node_modules/react",
--    "react-dom": "../node_modules/react-dom"
-+    "react": "../../../node_modules/react",
-+    "react-dom": "../../../node_modules/react-dom"
-   },
-```
-
-An alternative to fixing this problem would be to remove aliases altogether and define the dependencies referenced as aliases as dev dependencies instead. [However, that might cause other problems.](https://github.com/palmerhq/tsdx/issues/64)
+[MIT](./LICENSE)
